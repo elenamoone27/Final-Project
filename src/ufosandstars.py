@@ -3,12 +3,18 @@ import pygame
 import turtle
 import random
 
-def main():   
+stars = []
+screen = None
+
+def setup_screen():
+    global screen   
     screen = turtle.Screen()
     screen.bgcolor("black")
     screen.setup(width=800, height=600)
 
-    stars = []
+
+def draw_stars():
+    global stars
     for _ in range(50):
         star = turtle.Turtle()
         star.hideturtle()
@@ -19,17 +25,17 @@ def main():
         stars.append(star)
 
 
-def twinkle(screen, stars):
+def twinkle():
     for star in stars:
         star.color("white" if random.random() > 0.5 else "gray")
     screen.ontimer(twinkle, 500)
-twinkle()
-turtle.done()
 
 
-
-
-
-
+def main():
+    setup_screen()
+    draw_stars()
+    twinkle()
+    turtle.done()
+    
 if __name__ == "__main__":
     main()
