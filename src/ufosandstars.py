@@ -46,9 +46,10 @@ def main():
         y = random.randint(0, 600)
         opacity = random.randint(50, 255)
         phase = random.uniform(0, 2 * math.pi)
+        twinkle_speed = random.uniform(0.05, 0.2)
         star_surface = pygame.Surface((4, 4), pygame.SRCALPHA)
         pygame.draw.circle(star_surface, (255, 255, 255, opacity), (2, 2), 2)
-        stars.append([x, y, star_surface, opacity, phase])
+        stars.append([x, y, star_surface, opacity, phase, twinkle_speed])
 
     running = True
     while running:
@@ -58,9 +59,10 @@ def main():
 
         screen.fill((0, 0, 0))
         for star in stars:
-            star[4] += 0.1  # Increment phase
-            star[3] = int((math.sin(star[4]) + 1) * 127.5 + 127.5)  # Calculate opacity
-            star[2].fill((255, 255, 255, star[3]), special_flags=pygame.BLEND_RGBA_MULT)
+            star[4] += star[5]  # Increment phase
+            star[3] = int((math.sin(star[4]) + 1) * 102.5 + 102.5)  # Calculate opacity
+            star[3] = max(0, min(255, star[3]))
+            star[2].set_alpha(star[3])
             screen.blit(star[2], (star[0], star[1]))
 
         pygame.display.flip()
