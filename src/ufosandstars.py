@@ -7,6 +7,7 @@ stars = []
 screen = None
 
 def setup_screen():
+    turtle.tracer(0)
     global screen   
     screen = turtle.Screen()
     screen.bgcolor("black")
@@ -23,6 +24,7 @@ def draw_stars():
         star.goto(random.randint(-400, 400), random.randint(-300, 300))
         star.dot(random.randint(2, 5))
         stars.append(star)
+        turtle.update()
 
 
 def twinkle():
@@ -36,6 +38,6 @@ def main():
     draw_stars()
     twinkle()
     turtle.done()
-    
+
 if __name__ == "__main__":
     main()
