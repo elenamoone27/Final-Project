@@ -40,7 +40,7 @@ def main():
     clock = pygame.time.Clock()
 
     stars = []
-    for _ in range(100):
+    for _ in range(150):
         x = random.randint(0, 800)
         y = random.randint(0, 600)
         opacity = random.randint(50, 255)
