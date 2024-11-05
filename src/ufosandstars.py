@@ -16,7 +16,7 @@ def setup_screen():
 
 def draw_stars():
     global stars
-    for _ in range(50):
+    for _ in range(150):
         star = turtle.Turtle()
         star.hideturtle()
         star.penup()
