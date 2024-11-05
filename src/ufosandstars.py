@@ -2,6 +2,7 @@
 import pygame
 import turtle
 import random
+import math
  
 
 def setup_screen():
@@ -40,11 +41,14 @@ def main():
     clock = pygame.time.Clock()
 
     stars = []
-    for _ in range(150):
+    for _ in range(100):
         x = random.randint(0, 800)
         y = random.randint(0, 600)
         opacity = random.randint(50, 255)
-        stars.append([x, y, opacity])
+        phase = random.uniform(0, 2 * math.pi)
+        star_surface = pygame.Surface((4, 4), pygame.SRCALPHA)
+        pygame.draw.circle(star_surface, (255, 255, 255, opacity), (2, 2), 2)
+        stars.append([x, y, star_surface, opacity, phase])
 
     running = True
     while running:
@@ -54,8 +58,10 @@ def main():
 
         screen.fill((0, 0, 0))
         for star in stars:
-            star[2] = (star[2] + random.randint(-10, 10)) % 256
-            pygame.draw.circle(screen, (255, 255, 255, star[2]), (star[0], star[1]), 2)
+            star[4] += 0.1  # Increment phase
+            star[3] = int((math.sin(star[4]) + 1) * 127.5 + 127.5)  # Calculate opacity
+            star[2].fill((255, 255, 255, star[3]), special_flags=pygame.BLEND_RGBA_MULT)
+            screen.blit(star[2], (star[0], star[1]))
 
         pygame.display.flip()
         clock.tick(30)
