@@ -19,7 +19,12 @@ def main():
         stars.append(star)
 
 
-def twinkle():
+def twinkle(screen, stars):
+    for star in stars:
+        star.color("white" if random.random() > 0.5 else "gray")
+    screen.ontimer(twinkle, 500)
+twinkle()
+turtle.done()
 
 
 
