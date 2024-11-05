@@ -2,10 +2,7 @@
 import pygame
 import turtle
 import random
-
-stars = []
-screen = pygame.display.set_mode((800, 600))
-clock = pygame.time.Clock()
+ 
 
 def setup_screen():
     turtle.tracer(0)
@@ -18,10 +15,6 @@ def setup_screen():
 def draw_stars():
     global stars
     for _ in range(150):
-        x = random.randint(0, 800)
-        y = random.randint(0, 600)
-        opacity = random.randint(50,255)
-        stars.append([x, y, opacity])
         star = turtle.Turtle()
         star.hideturtle()
         star.penup()
@@ -42,10 +35,32 @@ def twinkle():
 
 
 def main():
-    setup_screen()
-    draw_stars()
-    twinkle()
-    turtle.done()
+    pygame.init()
+    screen = pygame.display.set_mode((800, 600))
+    clock = pygame.time.Clock()
+
+    stars = []
+    for _ in range(100):
+        x = random.randint(0, 800)
+        y = random.randint(0, 600)
+        opacity = random.randint(50, 255)
+        stars.append([x, y, opacity])
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        screen.fill((0, 0, 0))
+        for star in stars:
+            star[2] = (star[2] + random.randint(-10, 10)) % 256
+            pygame.draw.circle(screen, (255, 255, 255, star[2]), (star[0], star[1]), 2)
+
+        pygame.display.flip()
+        clock.tick(30)
+
+    pygame.quit()
 
 if __name__ == "__main__":
     main()
