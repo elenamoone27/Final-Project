@@ -7,14 +7,14 @@ import math
 pygame.init()
 
 # Set up the screen
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((2560, 1440))
 pygame.display.set_caption("Twinkling Stars")
 clock = pygame.time.Clock()
 
 stars = []
-for _ in range(100):
-    x = random.randint(0, 800)
-    y = random.randint(0, 600)
+for _ in range(300):
+    x = random.randint(0, 2560)
+    y = random.randint(0, 1440)
     opacity = random.randint(50, 255)
     phase = random.uniform(0, 2 * math.pi)
     twinkle_speed = random.uniform(0.05, 0.2)
@@ -34,30 +34,27 @@ def draw_stars():
 
 
 def draw_ufo(x, y, screen):
-    pygame.draw.ellipse(screen, (150, 150, 150), (x, y, 80, 30))
-    pygame.draw.ellipse(screen, (100, 100, 250), (x + 20, y - 10, 40, 20))
+    pygame.draw.ellipse(screen, (150, 150, 150), (x, y, 160, 60))
+    pygame.draw.ellipse(screen, (100, 100, 250), (x + 40, y - 20, 80, 40))
 
 def animate_ufo(x, y, speed, beam_height, screen):
     global beam_active
     x += speed
     draw_ufo(x, y, screen)
-    if x > 300:
+    if x > 800:
         beam_active = True
     if beam_active:
         pygame.draw.polygon(screen, (255, 255, 100), 
-                            [(x + 40, y + 30), (x + 20, y + 30 + beam_height), 
-                             (x + 60, y + 30 + beam_height)])
+                            [(x + 80, y + 60), (x + 40, y + 60 + beam_height), 
+                             (x + 120, y + 60 + beam_height)])
         beam_height += 5
     return x, beam_height
 
 
 def main():
-    pygame.init()
-    screen = pygame.display.set_mode((800, 600))
-    clock = pygame.time.Clock()
 
-    ufo_x, ufo_y = -100, 150
-    ufo_speed = 3
+    ufo_x, ufo_y = -200, 300
+    ufo_speed = 5
     global beam_active
     beam_active = False
     beam_height = 0
