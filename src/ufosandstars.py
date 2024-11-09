@@ -13,6 +13,45 @@ def setup_screen():
     screen.setup(width=800, height=600)
 
 
+def draw_ellipse():
+    turtle.penup()
+    turtle.goto(-400, 0)  # Start off-screen
+    turtle.pendown()
+    turtle.fillcolor("grey")
+    turtle.begin_fill()
+    for angle in range(360):
+        x = 267 * math.cos(math.radians(angle))
+        y = 100 * math.sin(math.radians(angle))
+        turtle.goto(x, y)
+    turtle.end_fill()
+
+def move_ellipse():
+    for _ in range(80):
+        turtle.forward(5)
+        # Add a small delay if needed
+
+# Set up screen
+turtle.bgcolor("black")
+# Draw stars here
+
+# Draw and move ellipse
+draw_ellipse()
+move_ellipse()
+
+turtle.done()
+
+def draw_ellipse():
+    turtle.penup()
+    turtle.goto(0, 200)
+    turtle.pendown()
+    turtle.fillcolor("grey")
+    turtle.begin_fill()
+    for _ in range(36):
+        turtle.forward(20.47)
+        turtle.left(360/36)
+    turtle.end_fill()
+
+
 def draw_stars():
     global stars
     for _ in range(150):
@@ -33,6 +72,10 @@ def twinkle():
         for star in stars:
             star.color("white" if random.random() > 0.5 else "gray")
     screen.ontimer(twinkle, 500)
+
+
+draw_ellipse()
+turtle.done()
 
 
 def main():
