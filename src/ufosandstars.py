@@ -5,73 +5,63 @@ import random
 import math
  
 
-def setup_screen():
-    turtle.tracer(0)
-    global screen   
-    screen = turtle.Screen()
-    screen.bgcolor("black")
-    screen.setup(width=800, height=600)
-# Set up screen
-turtle.bgcolor("black")
-# Draw stars here
-turtle.done()
+pygame.init()
 
+# Set up the screen
+screen = pygame.display.set_mode((800, 600))
+pygame.display.set_caption("Twinkling Stars")
+clock = pygame.time.Clock()
+
+# Define stars
+stars = []
+for _ in range(150):
+    x = random.randint(0, 800)
+    y = random.randint(0, 600)
+    radius = random.randint(2, 5)
+    stars.append((x, y, radius))
 
 def draw_stars():
-    global stars
-    for _ in range(150):
-        star = turtle.Turtle()
-        star.hideturtle()
-        star.penup()
-        star.color("white")
-        star.goto(random.randint(-400, 400), random.randint(-300, 300))
-        star.dot(random.randint(2, 5))
-        stars.append(star)
-        turtle.update()
+    for star in stars:
+        color = (255, 255, 255) if random.random() > 0.5 else (169, 169, 169)
+        pygame.draw.circle(screen, color, (star[0], star[1]), star[2])
+
+# Main loop
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    screen.fill((0, 0, 0))
+    draw_stars()
+    pygame.display.flip()
+    clock.tick(30)
 
 
-def twinkle():
-    global clock
-    clock += 1
-    if clock % 2 == 0:
-        for star in stars:
-            star.color("white" if random.random() > 0.5 else "gray")
-    screen.ontimer(twinkle, 500)
-
-
-def draw_ufo(x, y):
+def draw_ufo(x, y, screen):
     pygame.draw.ellipse(screen, (150, 150, 150), (x, y, 80, 30))
     pygame.draw.ellipse(screen, (100, 100, 250), (x + 20, y - 10, 40, 20))
 
-def animate_ufo(x, y, speed, beam_height):
+def animate_ufo(x, y, speed, beam_height, screen):
     global beam_active
     x += speed
-    draw_ufo(x, y)
+    draw_ufo(x, y, screen)
     if x > 300:
         beam_active = True
     if beam_active:
         pygame.draw.polygon(screen, (255, 255, 100), 
-                            [(x +40, y + 30)(x + 20, y + 30 + beam_height), 
+                            [(x + 40, y + 30), (x + 20, y + 30 + beam_height), 
                              (x + 60, y + 30 + beam_height)])
         beam_height += 5
+    return x, beam_height
 
-def draw_ellipse():
-    turtle.penup()
-    turtle.goto(0, 200)
-    turtle.pendown()
-    turtle.fillcolor("grey")
-    turtle.begin_fill()
-    for _ in range(36):
-        turtle.forward(20.47)
-        turtle.left(360/36)
-    turtle.end_fill()
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
     clock = pygame.time.Clock()
 
-    stars = []
+    stars = [[100, 100, pygame.Surface((2, 2)), 255, 0, 0.1]]
     for _ in range(100):
         x = random.randint(0, 800)
         y = random.randint(0, 600)
@@ -103,7 +93,7 @@ def main():
             star[2].set_alpha(star[3])
             screen.blit(star[2], (star[0], star[1]))
 
-        ufo_x, beam_height = animate_ufo(ufo_x, ufo_y, ufo_speed, beam_height)
+        ufo_x, beam_height = animate_ufo(ufo_x, ufo_y, ufo_speed, beam_height, screen)
 
         pygame.display.flip()
         clock.tick(30)
