@@ -1,4 +1,3 @@
-# Create black background with scattered stars
 import pygame
 import random
 import math
@@ -6,7 +5,6 @@ import math
 
 pygame.init()
 
-# Set up the screen
 screen = pygame.display.set_mode((2560, 1440))
 pygame.display.set_caption("Twinkling Stars")
 clock = pygame.time.Clock()
@@ -22,12 +20,11 @@ for _ in range(300):
     pygame.draw.circle(star_surface, (255, 255, 255, opacity), (2, 2), 2)
     stars.append([x, y, star_surface, opacity, phase, twinkle_speed])
 
-# Define stars
 
 def draw_stars():
     for star in stars:
-        star[4] += star[5]  # Increment phase
-        star[3] = int((math.sin(star[4]) + 1) * 102.5 + 102.5)  # Calculate opacity
+        star[4] += star[5]
+        star[3] = int((math.sin(star[4]) + 1) * 102.5 + 102.5)
         star[3] = max(0, min(255, star[3]))
         star[2].set_alpha(star[3])
         screen.blit(star[2], (star[0], star[1]))
@@ -37,7 +34,6 @@ def draw_lights(x, y, screen, frame_count):
     positions = [(x + 20, y + 30), (x + 140, y + 30), (x + 80, y + 40)]
     colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
     
-    # Change colors based on frame count
     for i, pos in enumerate(positions):
         color = colors[(frame_count // 10 + i) % len(colors)]
         pygame.draw.circle(screen, color, pos, 5)
