@@ -65,11 +65,11 @@ def animate_ufo(x, y, speed, beam_height, screen, frame_count):
 
 
 def display_text(screen, frame_count):
-    font = pygame.font.Font(None, 74)  # Choose a font and size
+    font = pygame.font.Font(None, 150)
     text = font.render("Are we really alone?", True, (255, 255, 255))
     text_rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
     
-    alpha = min(255, (frame_count - 200) * 2)  # Adjust the timing and speed of the fade-in
+    alpha = min(255, (frame_count - 200) * 2) 
     text.set_alpha(alpha)
     screen.blit(text, text_rect)
 
@@ -94,7 +94,7 @@ def main():
 
         draw_stars()
         
-        if ufo_x <= 800:
+        if ufo_x <= 2560:
             ufo_x, beam_height = animate_ufo(ufo_x, ufo_y, ufo_speed, beam_height, screen, frame_count)
         else:
             display_text(screen, frame_count)
