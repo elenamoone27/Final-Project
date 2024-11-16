@@ -42,10 +42,12 @@ def draw_lights(x, y, screen, frame_count):
         color = colors[(frame_count // 10 + i) % len(colors)]
         pygame.draw.circle(screen, color, pos, 5)
 
+
 def draw_ufo(x, y, screen, frame_count):
     pygame.draw.ellipse(screen, (150, 150, 150), (x, y, 160, 60))
     pygame.draw.ellipse(screen, (100, 100, 250), (x + 40, y - 20, 80, 40))
     draw_lights(x, y, screen, frame_count)
+
 
 def animate_ufo(x, y, speed, beam_height, screen, frame_count):
     global beam_active
@@ -60,6 +62,16 @@ def animate_ufo(x, y, speed, beam_height, screen, frame_count):
                                  (x + 130, y + 600 + beam_height)])
             beam_height += 5
     return x, beam_height
+
+
+def display_text(screen, frame_count):
+    font = pygame.font.Font(None, 74)  # Choose a font and size
+    text = font.render("Are we really alone?", True, (255, 255, 255))
+    text_rect = text.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
+    
+    alpha = min(255, (frame_count - 200) * 2)  # Adjust the timing and speed of the fade-in
+    text.set_alpha(alpha)
+    screen.blit(text, text_rect)
 
 
 def main():
@@ -81,8 +93,11 @@ def main():
         screen.fill((0, 0, 0))
 
         draw_stars()
-
-        ufo_x, beam_height = animate_ufo(ufo_x, ufo_y, ufo_speed, beam_height, screen, frame_count)
+        
+        if ufo_x <= 800:
+            ufo_x, beam_height = animate_ufo(ufo_x, ufo_y, ufo_speed, beam_height, screen, frame_count)
+        else:
+            display_text(screen, frame_count)
 
         pygame.display.flip()
         clock.tick(30)
