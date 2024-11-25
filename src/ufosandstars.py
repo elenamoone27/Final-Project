@@ -6,7 +6,7 @@ import math
 pygame.init()
 
 screen = pygame.display.set_mode((2560, 1440))
-pygame.display.set_caption("Twinkling Stars")
+pygame.display.set_caption("Ufos and Stars")
 clock = pygame.time.Clock()
 
 stars = []
